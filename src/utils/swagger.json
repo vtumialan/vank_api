@@ -1,0 +1,252 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Vank API",
+    "description": "Documentation from Vank API to internal users and clients."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Invoices",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Clients",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": ["http", "https"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header"
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/auth": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "internalCode",
+            "in": "body",
+            "description": "Internal code of the clients.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthClient"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthToken"
+            },
+            "description": "Successfully authentication."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/invoice": {
+      "get": {
+        "tags": ["Invoices"],
+        "description": "",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "vendorId",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "type": "date"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "type": "date"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/api/v1/client": {
+      "post": {
+        "tags": ["Clients"],
+        "description": "Endpoint for users to create new clients.",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Client information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddClient"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created."
+          },
+          "500": {
+            "description": "Server Failure."
+          }
+        }
+      }
+    },
+    "/api/v1/client/profile": {
+      "patch": {
+        "tags": ["Clients"],
+        "description": "Endpoint for clients to update their information.",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Client information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateClient"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated."
+          },
+          "500": {
+            "description": "Server Failure."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6MSwiaW50ZXJuYWxDb2RlIjoiMTIzNDU2Nzg5IiwiaWF0IjoxNjQ0NzE3MjY0LCJleHAiOjE2NDQ4MDM2NjR9.pPiHWRVaTVhvbvC-1oWeakoFuS__x4CgvdtMlvDLO2A"
+        }
+      },
+      "xml": {
+        "name": "AuthToken"
+      }
+    },
+    "AuthClient": {
+      "type": "object",
+      "properties": {
+        "internalCode": {
+          "type": "string",
+          "example": "123456789"
+        }
+      },
+      "required": ["internalCode"],
+      "xml": {
+        "name": "AuthClient"
+      }
+    },
+    "AddClient": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Company"
+        },
+        "internalCode": {
+          "type": "number",
+          "example": 123456789
+        },
+        "taxId": {
+          "type": "number",
+          "example": 987654321
+        },
+        "currency": {
+          "type": "string",
+          "example": "USD"
+        },
+        "quota": {
+          "type": "number",
+          "example": 100
+        },
+        "bankRegisters": {
+          "type": "string",
+          "example": ""
+        }
+      },
+      "required": [
+        "name",
+        "internalCode",
+        "taxId",
+        "currency",
+        "quota",
+        "bankRegisters"
+      ],
+      "xml": {
+        "name": "AddClient"
+      }
+    },
+    "UpdateClient": {
+      "type": "object",
+      "properties": {
+        "taxId": {
+          "type": "number",
+          "example": 123456789
+        },
+        "currency": {
+          "type": "string",
+          "example": "USD"
+        }
+      },
+      "xml": {
+        "name": "UpdateClient"
+      }
+    }
+  }
+}
