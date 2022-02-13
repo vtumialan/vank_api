@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         return this.getDataValue('bankRegisters').split(';')
       },
       set(val) {
-        console.log(val)
         this.setDataValue('bankRegisters', val.join(';'));
       },
     }
