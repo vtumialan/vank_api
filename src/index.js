@@ -12,7 +12,12 @@ const cache = new NodeCache({ stdTTL: process.env.CACHETIME });
 
 require('./cron')
 
-app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+const swaggerFileserver = {
+    ...swaggerFile,
+    host: process.env.HOST
+}
+
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFileserver))
 app.use(morgan('dev'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
