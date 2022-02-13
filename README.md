@@ -36,3 +36,43 @@ The cron is executed every 2 hours from 5:00 to 11:00, validating if the synchro
     npm run dev
 ```
 2.  [Enter here](http://localhost:3000/)
+
+---
+
+# Database
+
+## Models
+
+### Clients
+
+| Field | Type | Required | Description |
+| ----- | ---- | -------- | ----------- |
+| id | integer | yes | primary key |
+| name | String | yes | Name of client |
+| internalCode | integer | yes | Internal code of client |
+| taxId | integer | yes | Tax id of client |
+| currency  | String | yes | Client's currency (USD, EUR or CLP) |
+| quota | integer | yes | Limit quota of request |
+| bankRegisters | Array[integer] | yes | Array with list bankId |
+
+### Invoice
+
+| Field | Type | Required | Description |
+| ----- | ---- | -------- | ----------- |
+| id | integer | yes | primary key |
+| vendorId | integer | yes | Vendor id |
+| number | String | yes | Invoice number |
+| date | Date | yes | date |
+| total | decimal | yes | total |
+| paymentTotal | decimal | yes | Payment total |
+| creditTotal | decimal | yes | Credit total |
+| bankId | id | yes | Bank id |
+| dueDate | Date | no | Due date |
+| paymentDate | Date | yes | Payment date |
+| currency | string | yes | Invoice currency |
+
+### SequelizeMeta
+
+| Field | Type | Required | Description |
+| ----- | ---- | -------- | ----------- |
+| name | String | yes | Name of migrate file |
