@@ -13,11 +13,6 @@ The cron is executed every 2 hours from 5:00 to 11:00, validating if the synchro
 
 ---
 
-## Documentation API
-1. Run api
-2. [Documentation](http://localhost:3000/documentation)
----
-
 ## Run in development with Docker
 1. Run in cmd:
 ```x-sh
@@ -36,6 +31,12 @@ The cron is executed every 2 hours from 5:00 to 11:00, validating if the synchro
     npm run dev
 ```
 2.  [Enter here](http://localhost:3000/)
+
+---
+
+## Documentation API
+1. Run api
+2. [Documentation](http://localhost:3000/documentation)
 
 ---
 
